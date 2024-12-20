@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M-Pesa 1  Transaction Charges Calculator 2024</title>
+    <meta name="description" content="Are You looking for New M-Pesa charges in 2024? Know your accurate M-Pesa transaction fees with our mpesa charges Calculator for Agent withdrawals, ATM, etc">
+    <meta name="keywords" content="mpesa charges 2024, mpesa sending charges, mpesa charges for sending money, mpesa charges to send money, mpesa charges sending money, safaricom withdrawal charges, mpesa transaction costs, mpesa charges for paybill, paybill charges mpesa, paybill mpesa charges, paybill charges for mpesa, mpesa paybill charges, mpesa charges chart, mpesa transactions charges, mpesa transaction charges, mpesa charges for withdrawal, mpesa withdraw charges, withdraw charges mpesa, mpesa withdrawal charges, withdrawal charges for mpesa">
+    <meta property="og:title" content="M-Pesa Charges Calculator 2024">
+    <meta property="og:description" content="Calculate all M-Pesa transaction fees instantly. Updated 2024 rates for sending, withdrawal, and other services.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://mawese.com/m-pesa-charges-calculator/" />
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "WebPage",
+            "name": "New M-Pesa Charges 2024 Calculator",
+            "description": "Calculate fees for various M-Pesa transactions.",
+            "url": "https://mawese.com/m-pesa-charges-calculator/",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://mawese.com/m-pesa-charges-calculator/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "M-Pesa Calculator",
+                        "item": "https://mawese.com/m-pesa-charges-calculator/"
+                    }
+                ]
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>New M-Pesa Charges 2024 Calculator</h1>
+            <br>
+            <p>
+                M-Pesa has changed the way we handle money in Kenya today. If you use M-Pesa
+                daily, knowing Transaction charges is very important. The charges that you incur
+                depend on the amount of the transaction and the transaction type, i.e., sending or
+                withdrawing.
+            </p>
+        
+            <br>
+        
+            <p>
+                Here at Mawese, we have done the work for you. Now we present you with Mpesa
+                Transaction Charges Calculator 2024. Our Calculator is designed to help you stay informed about the latest transaction fees. With this tool, you can easily calculate charges for
+                sending money to registered and unregistered users, agent withdrawals, and ATM
+                withdrawals.
+            </p>
+        </header>
+        
+        <main>
+            <div class="card">
+                <h2>Why Choose Our Calculator?</h2>
+                <p>Our tool is essential as it has the following features:</p>
+                <div class="calculator-features">
+                    <div class="features-grid">
+                        <div class="feature">
+                            <span>✓ Latest 2024 Rates</span>
+                        </div>
+                        <div class="feature">
+                            <span>✓ Instant Calculations</span>
+                        </div>
+                        <div class="feature">
+                            <span>✓ All Transaction Types</span>
+                        </div>
+                        <div class="feature">
+                            <span>✓ Official Safaricom Charges</span>
+                        </div>
+                    </div>
+                </div>
+                <p>
+                    This calculator is the best way to ensure accurate M-Pesa charges. It's fast and
+                    always up-to-date.
+                </p>
+            </div>
+        
+            <div class="input-section">
+                <label for="amount">
+                    <h2>Enter the M-Pesa Transaction Amount:</h2>
+                </label>
+                <input type="number" id="amount" placeholder="KES" min="1">
+                <div id="amount-error" class="error-message"></div> 
+                <button id="calculate">Calculate</button>
+                <div id="loader" class="loader"></div>  </div>
+        
+            <div class="output-section">
+                <div class="card">
+                    <h2>Actual Charges</h2>
+                    <ul>
+                        <li>Transfer to M-Pesa Users: <span id="mpesa-transfer">0</span></li>
+                        <li>Transfer to Unregistered Users: <span id="unregistered-transfer">0</span></li>
+                        <li>Withdrawal from Agent: <span id="agent-withdrawal">0</span></li>
+                        <li>Transfer to Other Mobile Money Users: <span id="other-transfer">0</span></li> 
+                        <li>ATM Withdrawal: <span id="atm-withdrawal">0</span></li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h2>Transaction Limits</h2>
+                    <ul>
+                        <li>Maximum Account Balance:  <span class="limit-amount">KShs. 500,000</span></li>
+                        <li>Maximum Daily Transaction Value:  <span class="limit-amount">KShs. 500,000</span></li>
+                        <li>Maximum Amount per Transaction:  <span class="limit-amount">KShs. 250,000</span></li>
+                        <li>Minimum Withdrawal from Agent:  <span class="limit-amount">KShs. 50</span></li>
+                    </ul>
+                </div>
+            </div>
+        
+            <div class="table-section">
+                <button id="toggle-table">Show M-Pesa Charges Table</button>
+                <div id="charges-table" class="hidden">
+                    <h2>M-PESA Tariffs</h2>
+                    </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+
+document.addEventListener('DOMContentLoaded', function () {
+    const calculator = {
+        init() {
+            this.calculateButton = document.getElementById('calculate');
+            this.amountInput = document.getElementById('amount');
+            this.amountError = document.getElementById('amount-error');
+            this.toggleTableButton = document.getElementById('toggle-table');
+            this.chargesTable = document.getElementById('charges-table');
+            this.loader = document.getElementById('loader');
+            this.bindEvents();
+            this.addInputValidation();
+            this.chargeRanges = {
+                mpesaTransfer: [
+                    { min: 1, max: 100, charge: "Free" },
+                    { min: 101, max: 500, charge: 7 },
+                    { min: 501, max: 1000, charge: 13 },
+                    { min: 1001, max: 1500, charge: 23 },
+                    { min: 1501, max: 2500, charge: 33 },
+                    { min: 2501, max: 3500, charge: 53 },
+                    { min: 3501, max: 5000, charge: 57 },
+                    { min: 5001, max: 7500, charge: 78 },
+                    { min: 7501, max: 10000, charge: 90 },
+                    { min: 10001, max: 15000, charge: 100 },
+                    { min: 15001, max: 20000, charge: 105 },
+                    { min: 20001, max: 35000, charge: 108 },
+                    { min: 35001, max: 50000, charge: 108 },
+                    { min: 50001, max: 250000, charge: 108 }
+                ],
+                unregisteredTransfer: [
+                    { min: 50, max: 100, charge: "Free" },
+                    { min: 101, max: 250000, charge: 29 }
+                ],
+                agentWithdrawal: [
+                    { min: 50, max: 100, charge: 11 },
+                    { min: 101, max: 2500, charge: 29 },
+                    { min: 2501, max: 3500, charge: 52 },
+                    { min: 3501, max: 5000, charge: 69 },
+                    { min: 5001, max: 7500, charge: 87 },
+                    { min: 7501, max: 10000, charge: 115 },
+                    { min: 10001, max: 15000, charge: 167 },
+                    { min: 15001, max: 20000, charge: 185 },
+                    { min: 20001, max: 35000, charge: 197 },
+                    { min: 35001, max: 50000, charge: 278 },
+                    { min: 50001, max: 250000, charge: 309 }
+                ],
+                atmWithdrawal: [
+                    { min: 200, max: 2500, charge: 35 },
+                    { min: 2501, max: 5000, charge: 69 },
+                    { min: 5001, max: 10000, charge: 115 },
+                    { min: 10001, max: 35000, charge: 203 }
+                ],
+                otherTransfer: [
+                    { min: 1, max: 100, charge: "Free" },
+                    { min: 101, max: 500, charge: 7 },
+                    { min: 501, max: 1000, charge: 13 },
+                    { min: 1001, max: 1500, charge: 23 },
+                    { min: 1501, max: 2500, charge: 33 },
+                    { min: 2501, max: 3500, charge: 53 },
+                    { min: 3501, max: 5000, charge: 57 },
+                    { min: 5001, max: 7500, charge: 78 },
+                    { min: 7501, max: 10000, charge: 90 },
+                    { min: 10001, max: 15000, charge: 100 },
+                    { min: 15001, max: 20000, charge: 105 },
+                    { min: 20001, max: 35000, charge: 108 },
+                    { min: 35001, max: 50000, charge: 108 },
+                    { min: 50001, max: 250000, charge: 108 }
+                ]
+            };
+        },
+
+        bindEvents() {
+            this.calculateButton.addEventListener('click', () => this.handleCalculation());
+            this.toggleTableButton.addEventListener('click', () => this.toggleChargesTable());
+            this.amountInput.addEventListener('input', (e) => this.validateInput(e));
+        },
+
+        addInputValidation() {
+            this.amountInput.setAttribute('type', 'number');
+            this.amountInput.setAttribute('min', '1');
+            this.amountInput.setAttribute('max', '250000');
+            this.amountInput.setAttribute('step', 'any');
+        },
+
+        validateInput(e) {
+            const input = e.target;
+            let value = input.value;
+
+            if (isNaN(value)) {
+                this.showError("Please enter a valid number.", input);
+                input.value = '';
+                return;
+            }
+
+            const parts = value.split('.');
+            if (parts.length > 2) {
+                value = parts[0] + '.' + parts[1].slice(0, 2);
+            }
+
+            if (value === "") {
+                this.showError("Please enter an amount.", input);
+            } else if (value > 250000) {
+                value = '250000';
+                this.showError("The maximum amount is 250,000 KES.", input);
+            } else if (value < 1) {
+                value = '1';
+                this.showError("The minimum amount is 1 KES.", input);
+            } else {
+                this.clearError(input);
+            }
+
+            input.value = value;
+        },
+
+        showError(message, input) {
+            this.amountError.textContent = message;
+            input.classList.add('error');
+            input.setAttribute('aria-invalid', 'true');
+            this.amountError.setAttribute('role', 'alert');
+        },
+
+        clearError(input) {
+            this.amountError.textContent = '';
+            input.classList.remove('error');
+            input.removeAttribute('aria-invalid');
+            this.amountError.removeAttribute('role');
+        },
+
+        handleCalculation() {
+            const amount = parseFloat(this.amountInput.value);
+
+            if (!this.isValidAmount(amount)) {
+                return;
+            }
+
+            this.showLoader();
+
+            setTimeout(() => {
+                this.calculateCharges(amount);
+                this.hideLoader();
+            }, 500);
+        },
+
+        isValidAmount(amount) {
+            if (isNaN(amount) || amount < 1 || amount > 250000) {
+                this.showError('Amount should be between 1 and 250,000 KES.', this.amountInput);
+                return false;
+            }
+            return true;
+        },
+
+        calculateCharges(amount) {
+            const charges = {
+                mpesaTransfer: this.findCharge(amount, this.chargeRanges.mpesaTransfer),
+                unregisteredTransfer: this.findCharge(amount, this.chargeRanges.unregisteredTransfer),
+                agentWithdrawal: this.findCharge(amount, this.chargeRanges.agentWithdrawal),
+                otherTransfer: this.findCharge(amount, this.chargeRanges.otherTransfer),
+                atmWithdrawal: this.findCharge(amount, this.chargeRanges.atmWithdrawal)
+            };
+
+            this.updateUI(charges);
+        },
+
+        findCharge(amount, ranges) {
+            for (const range of ranges) {
+                if (amount >= range.min && amount <= range.max) {
+                    return range.charge;
+                }
+            }
+            return "Range not supported";
+        },
+
+        formatCharge(charge) {
+            if (typeof charge === 'number') {
+                return `KShs. ${charge.toLocaleString()}`;
+            }
+            return charge; 
+        },
+
+        updateUI(charges) {
+            Object.keys(charges).forEach(chargeType => {
+                const element = document.getElementById(chargeType.replace(/([A-Z])/g, '-$1').toLowerCase());
+                if (element) {
+                    element.textContent = this.formatCharge(charges[chargeType]);
+                }
+            });
+        },
+
+        toggleChargesTable() {
+            const isHidden = this.chargesTable.classList.contains('hidden');
+            this.chargesTable.classList.toggle('hidden');
+            this.toggleTableButton.textContent = isHidden ?
+                'Hide M-Pesa Charges Table' :
+                'Show M-Pesa Charges Table';
+            if (isHidden) {
+                this.populateChargesTable();
+                this.chargesTable.scrollIntoView({ behavior: 'smooth' });
+            }
+        },
+
+        populateChargesTable() {
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            const tbody = document.createElement('tbody');
+
+            // Create table header rows (two rows for your format)
+            const headerRow1 = document.createElement('tr');
+            ['TRANSACTION RANGE (KSHS)', 'TRANSACTION TYPE AND CUSTOMER CHARGES (KSHS)'].forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText;
+                th.colSpan = 2; // Span two columns
+                headerRow1.appendChild(th);
+            });
+            thead.appendChild(headerRow1);
+
+            const headerRow2 = document.createElement('tr');
+            ['MIN', 'MAX', 'TRANSFER TO M-PESA USERS, POCHI LA BIASHARA AND BUSINESS TILL TO CUSTOMER', 'TRANSFER TO OTHER REGISTERED MOBILE MONEY USERS', 'WITHDRAWAL FROM M-PESA AGENT'].forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText;
+                headerRow2.appendChild(th);
+            });
+            thead.appendChild(headerRow2);
+
+            // Create table data rows (matching your provided data)
+            const tableData = [
+                { min: 1, max: 49, mpesaTransfer: 'Free', otherTransfer: 'Free', agentWithdrawal: 'N/A' },
+                { min: 50, max: 100, mpesaTransfer: 'Free', otherTransfer: 'Free', agentWithdrawal: 11 },
+                { min: 101, max: 500, mpesaTransfer: 7, otherTransfer: 7, agentWithdrawal: 29 },
+                { min: 501, max: 1000, mpesaTransfer: 13, otherTransfer: 13, agentWithdrawal: 29 },
+                { min: 1001, max: 1500, mpesaTransfer: 23, otherTransfer: 23, agentWithdrawal: 29 },
+                { min: 1501, max: 2500, mpesaTransfer: 33, otherTransfer: 33, agentWithdrawal: 29 },
+                { min: 2501, max: 3500, mpesaTransfer: 53, otherTransfer: 53, agentWithdrawal: 52 },
+                { min: 3501, max: 5000, mpesaTransfer: 57, otherTransfer: 57, agentWithdrawal: 69 },
+                { min: 5001, max: 7500, mpesaTransfer: 78, otherTransfer: 78, agentWithdrawal: 87 },
+                { min: 7501, max: 10000, mpesaTransfer: 90, otherTransfer: 90, agentWithdrawal: 115 },
+                { min: 10001, max: 15000, mpesaTransfer: 100, otherTransfer: 100, agentWithdrawal: 167 },
+                { min: 15001, max: 20000, mpesaTransfer: 105, otherTransfer: 105, agentWithdrawal: 185 },
+                { min: 20001, max: 35000, mpesaTransfer: 108, otherTransfer: 108, agentWithdrawal: 197 },
+                { min: 35001, max: 50000, mpesaTransfer: 108, otherTransfer: 108, agentWithdrawal: 278 },
+                { min: 50001, max: 250000, mpesaTransfer: 108, otherTransfer: 108, agentWithdrawal: 309 }
+            ];
+
+            tableData.forEach(data => {
+                const row = document.createElement('tr');
+                [data.min, data.max, data.mpesaTransfer, data.otherTransfer, data.agentWithdrawal].forEach(value => {
+                    const cell = document.createElement('td');
+                    // Only add "KShs." if the value is a number
+                    cell.textContent = typeof value === 'number' ? value.toLocaleString() : value; 
+                    row.appendChild(cell);
+                });
+                tbody.appendChild(row);
+            });
+
+            // Add ATM withdrawal section 
+            const atmWithdrawalData = [
+                { min: 200, max: 2500, charge: 35 },
+                { min: 2501, max: 5000, charge: 69 },
+                { min: 5001, max: 10000, charge: 115 },
+                { min: 10001, max: 35000, charge: 203 }
+            ];
+
+            // Add a separator row
+            const separatorRow = document.createElement('tr');
+            const separatorCell = document.createElement('td');
+            separatorCell.colSpan = 5; 
+            separatorCell.textContent = 'ATM Withdrawal Tariff';
+            separatorCell.style.textAlign = 'center'; 
+            separatorRow.appendChild(separatorCell);
+            tbody.appendChild(separatorRow); 
+
+            atmWithdrawalData.forEach(data => {
+                const row = document.createElement('tr');
+                [data.min, data.max, "", "", data.charge].forEach(value => { // Add empty cells for alignment
+                    const cell = document.createElement('td');
+                    cell.textContent = typeof value === 'number' ? value.toLocaleString() : value;
+                    row.appendChild(cell);
+                });
+                tbody.appendChild(row);
+            });
+
+            table.appendChild(thead);
+            table.appendChild(tbody);
+            this.chargesTable.appendChild(table);
+        },
+
+        showLoader() {
+            this.loader.style.display = 'block';
+        },
+
+        hideLoader() {
+            this.loader.style.display = 'none';
+        }
+    };
+
+    calculator.init();
+});
+</script>
+</body>
+</html>
